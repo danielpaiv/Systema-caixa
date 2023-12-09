@@ -96,7 +96,7 @@
           <button class="adicionar-produto">Adicionar</button>
         </div> -->
 
-        <section class="produtos">
+            <section class="produtos">
               <h2>Produtos</h2>
                   <div>
                     <label for="filtro-produtos">Filtrar por nome:</label>
@@ -107,28 +107,71 @@
                   </div>
                   <br>
                   <br>
-                      <!-- Lista de produtos -->
-              <div class="produto" data-name="Camisa" data-price="25.00">
-                <span>Camisa</span>
+                <!-- Lista de produtos -->
+
+                <!-- Produto Camisa -->
+
+              <div class="produto" data-name="Camisa-m" data-price="25.00">
+                <span>Camisa-m</span>
                 <span>R$ 25,00</span>
                 <input type="number" value="1" min="1">
                 <button class="adicionar-produto">Adicionar</button>
               </div>
 
-              <div class="produto" data-name="Calça Jeans" data-price="45.00">
-                <span>Calça Jeans</span>
+              <div class="produto" data-name="Camisa-g" data-price="25.00">
+                <span>Camisa-g</span>
+                <span>R$ 25,00</span>
+                <input type="number" value="1" min="1">
+                <button class="adicionar-produto">Adicionar</button>
+              </div>
+
+               <!-- Produto Camisa -->
+
+               <!-- Produto Calça -->
+              <div class="produto" data-name="Calça Jeans-40" data-price="45.00">
+                <span>Calça Jeans-40</span>
                 <span>R$ 45,00</span>
                 <input type="number" value="1" min="1">
                 <button class="adicionar-produto">Adicionar</button>
               </div>
 
-              <div class="produto" data-name="Tênis" data-price="60.00">
-                <span>Tênis</span>
+              <div class="produto" data-name="Calça Jeans-36" data-price="45.00">
+                <span>Calça Jeans-36</span>
+                <span>R$ 45,00</span>
+                <input type="number" value="1" min="1">
+                <button class="adicionar-produto">Adicionar</button>
+              </div>
+               <!-- Produto Calça -->
+
+                <!-- Produto Tênis -->
+              <div class="produto" data-name="Tênis-40" data-price="60.00">
+                <span>Tênis-40</span>
                 <span>R$ 60,00</span>
                 <input type="number" value="1" min="1">
                 <button class="adicionar-produto">Adicionar</button>
               </div>
-        </section>  
+
+              <div class="produto" data-name="Tênis-38" data-price="60.00">
+                <span>Tênis-38</span>
+                <span>R$ 60,00</span>
+                <input type="number" value="1" min="1">
+                <button class="adicionar-produto">Adicionar</button>
+              </div>
+               <!-- Produto Tênis -->
+
+                <!-- Produto Boné -->
+
+              <div class="produto" data-name="Boné" data-price="30.00">
+                <span>Boné</span>
+                <span>R$ 30,00</span>
+                <input type="number" value="1" min="1">
+                <button class="adicionar-produto">Adicionar</button>
+              </div>
+
+               <!-- Produto Boné -->
+
+              <!-- Lista de produtos -->
+            </section>  
           <!-- Restante do código dos produtos... -->
         
 
@@ -191,33 +234,124 @@
   <script>
 
 
-document.addEventListener('DOMContentLoaded', function () {
-  // Restante do seu código...
+  // código filtrar itens...
 
-  const filtroProdutos = document.getElementById('filtro-produtos');
-  const botaoFiltrar = document.getElementById('botao-filtrar');
-  const produtos = document.querySelectorAll('.produtos .produto');
+  document.addEventListener
+  ('DOMContentLoaded', function () 
+    {
+    
 
-  botaoFiltrar.addEventListener('click', function () {
-    const termoBusca = filtroProdutos.value.toLowerCase();
+      const filtroProdutos = document.getElementById('filtro-produtos');
+      const botaoFiltrar = document.getElementById('botao-filtrar');
+      const produtos = document.querySelectorAll('.produtos .produto');
 
-    produtos.forEach(produto => {
-      const nomeProduto = produto.getAttribute('data-name').toLowerCase();
-      const produtoElemento = produto;
+      botaoFiltrar.addEventListener
+      ('click', function () 
+        {
+          const termoBusca = filtroProdutos.value.toLowerCase();
 
-      if (nomeProduto.includes(termoBusca)) {
-        produtoElemento.style.display = 'flex'; // Exibe o produto
-      } else {
-        produtoElemento.style.display = 'none'; // Oculta o produto
-      }
-    });
-  });
+          produtos.forEach
+          (produto => 
+            {
+              const nomeProduto = produto.getAttribute('data-name').toLowerCase();
+              const produtoElemento = produto;
 
-  // Restante do seu código...
-});
+              if (nomeProduto.includes(termoBusca)) 
+              {
+                produtoElemento.style.display = 'flex'; // Exibe o produto
+              }
+              else 
+              {
+                produtoElemento.style.display = 'none'; // Oculta o produto
+              }
+            }
+          );
+        }
+      );
+
+  
+    }
+  );
+
+// código filtrar itens...
 
 
+// codigo salvar dados no navegador...
 
+
+  document.addEventListener
+  ('DOMContentLoaded', function () 
+    {
+        // Restante do seu código...
+
+        const listaPedidosVendidos = document.querySelector('.lista-pedidos-vendidos');
+        const botaoFinalizarCompra = document.querySelector('.finalizar-compra');
+        // Outras variáveis e seletores...
+
+        // Carregar pedidos do localStorage se existirem
+        const pedidosSalvos = JSON.parse(localStorage.getItem('pedidos')) || [];
+
+        function exibirPedidosSalvos() 
+        {
+          listaPedidosVendidos.innerHTML = '';
+
+          pedidosSalvos.forEach
+          (pedido => 
+            {
+              const newRow = document.createElement('tr');
+              newRow.innerHTML = `
+                <td>${pedido.nome}</td>
+                <td>${pedido.data}</td>
+                <td>${pedido.formaPagamento}</td>
+                <td>${pedido.quantidade}</td>
+                <td>${pedido.valor}</td>
+              `;
+              listaPedidosVendidos.appendChild(newRow);
+            }
+          );
+        }
+
+        exibirPedidosSalvos(); // Exibe os pedidos salvos ao carregar a página
+
+        // Restante do seu código...
+
+        // Evento para finalizar compra
+        botaoFinalizarCompra.addEventListener
+        ('click', () => 
+          {
+            // Restante do código para finalizar compra...
+
+            // Salvar pedido realizado no localStorage
+            const itensCarrinhoRows = document.querySelectorAll('.itens-carrinho tr');
+
+            itensCarrinhoRows.forEach(row => 
+            {
+              const nome = row.children[0].textContent;
+              const quantidade = row.children[2].textContent;
+              const valor = row.children[3].textContent;
+
+              const novoPedido = 
+              {
+                nome: nome,
+                data: new Date().toLocaleDateString(),
+                formaPagamento: selectFormaPagamento.value,
+                quantidade: quantidade,
+                valor: valor
+              };
+
+              pedidosSalvos.push(novoPedido);
+            });
+
+            localStorage.setItem('pedidos', JSON.stringify(pedidosSalvos));
+            exibirPedidosSalvos(); // Atualiza a exibição dos pedidos salvos após cada nova finalização de compra
+          }
+        );
+
+      // Restante do seu código...
+    }
+  );
+
+// codigo salvar dados no navegador...
 
 
     document.addEventListener
