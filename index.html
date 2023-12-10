@@ -9,6 +9,7 @@
       font-family: Arial, sans-serif;
       margin: 0;
       padding: 0;
+      background-color: rgb(192, 227, 227);
       
     }
 
@@ -278,78 +279,8 @@
 
 // codigo salvar dados no navegador...
 
+// Evento de clique para exportar pedidos
 
-  document.addEventListener
-  ('DOMContentLoaded', function () 
-    {
-        // Restante do seu código...
-
-        const listaPedidosVendidos = document.querySelector('.lista-pedidos-vendidos');
-        const botaoFinalizarCompra = document.querySelector('.finalizar-compra');
-        // Outras variáveis e seletores...
-
-        // Carregar pedidos do localStorage se existirem
-        const pedidosSalvos = JSON.parse(localStorage.getItem('pedidos')) || [];
-
-        function exibirPedidosSalvos() 
-        {
-          listaPedidosVendidos.innerHTML = '';
-
-          pedidosSalvos.forEach
-          (pedido => 
-            {
-              const newRow = document.createElement('tr');
-              newRow.innerHTML = `
-                <td>${pedido.nome}</td>
-                <td>${pedido.data}</td>
-                <td>${pedido.formaPagamento}</td>
-                <td>${pedido.quantidade}</td>
-                <td>${pedido.valor}</td>
-              `;
-              listaPedidosVendidos.appendChild(newRow);
-            }
-          );
-        }
-
-        exibirPedidosSalvos(); // Exibe os pedidos salvos ao carregar a página
-
-        // Restante do seu código...
-
-        // Evento para finalizar compra
-        botaoFinalizarCompra.addEventListener
-        ('click', () => 
-          {
-            // Restante do código para finalizar compra...
-
-            // Salvar pedido realizado no localStorage
-            const itensCarrinhoRows = document.querySelectorAll('.itens-carrinho tr');
-
-            itensCarrinhoRows.forEach(row => 
-            {
-              const nome = row.children[0].textContent;
-              const quantidade = row.children[2].textContent;
-              const valor = row.children[3].textContent;
-
-              const novoPedido = 
-              {
-                nome: nome,
-                data: new Date().toLocaleDateString(),
-                formaPagamento: selectFormaPagamento.value,
-                quantidade: quantidade,
-                valor: valor
-              };
-
-              pedidosSalvos.push(novoPedido);
-            });
-
-            localStorage.setItem('pedidos', JSON.stringify(pedidosSalvos));
-            exibirPedidosSalvos(); // Atualiza a exibição dos pedidos salvos após cada nova finalização de compra
-          }
-        );
-
-      // Restante do seu código...
-    }
-  );
 
 // codigo salvar dados no navegador...
 
@@ -474,49 +405,49 @@
 
               // Evento de clique para exportar pedidos
               botaoExportarPedidos.addEventListener
+              ('click', () => 
+                {
+                  const linhasTabela = document.querySelectorAll('.pedidos-vendidos tbody tr');
 
-                    ('click', () => 
+                  let textoExportado = 'Item,Data,Forma de Pagamento,Quantidade,Valor\n';
 
-                      {
-                        const linhasTabela = document.querySelectorAll('.pedidos-vendidos tbody tr');
-
-                        let textoExportado = 'Item,Data,Forma de Pagamento,Quantidade,Valor\n';
-
-                        linhasTabela.forEach
-
-                        (linha => 
-
+                  linhasTabela.forEach
+                  (linha => 
+                    {
+                      const colunas = linha.querySelectorAll('td');
+                      colunas.forEach
+                      ((coluna, index) => 
+                        {
+                          textoExportado += coluna.textContent;
+                          if (index !== colunas.length - 1) 
                           {
-                            const colunas = linha.querySelectorAll('td');
-                            colunas.forEach
-
-                            ((coluna, index) => 
-
-                              {
-                                textoExportado += coluna.textContent;
-                                if (index !== colunas.length - 1) 
-                                {
-                                  textoExportado += ',';
-                                } 
-                                else 
-                                {
-                                  textoExportado += '\n';
-                                }
-                              }
-                            );
+                            textoExportado += ',';
+                          } else 
+                          {
+                            textoExportado += '\n';
                           }
-                        );
+                        }
+                      );
+                    }
+                  );
+                  // Limpar a tabela de pedidos
+                  const listaPedidosVendidos = document.querySelector('.lista-pedidos-vendidos');
+                  listaPedidosVendidos.innerHTML = '';
+                  // Gera um nome de arquivo baseado na data e hora atual
+                  const agora = new Date();
+                  const nomeArquivo = `pedidos_${agora.getFullYear()}/${agora.getMonth() + 1}/${agora.getDate()}_${agora.getHours()}-${agora.getMinutes()}-${agora.getSeconds()}.txt`;
 
-                          const a = document.createElement('a');
-                          const file = new Blob([textoExportado], { type: 'text/plain' });
-                          a.href = URL.createObjectURL(file);
-                          a.download = 'pedidos.txt';
-                            a.click();
-                      }
-                    );
+                  // Cria um elemento <a> para fazer o download do arquivo
+                  const a = document.createElement('a');
+                  const file = new Blob([textoExportado], { type: 'text/plain' });
+                  a.href = URL.createObjectURL(file);
+                  a.download = nomeArquivo;
+                  a.click();
+                }
+              );
             }
     
-  );
+    );
   </script>
 </body>
 </html>
